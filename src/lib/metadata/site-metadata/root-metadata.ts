@@ -8,8 +8,8 @@ export function buildRootMetadata(
 ): Metadata {
   const title =
     locale === 'tr'
-      ? 'Tulpar | Next.js Uygulama Şablonu & Türk Kültür Atlası'
-      : 'Tulpar | Next.js Application Template & Culture Atlas';
+      ? 'Seyri Cihan | Etkileşimli Türk Tarihi Atlası'
+      : 'Seyri Cihan | Interactive History Atlas';
 
   return {
     metadataBase: siteMetadata.url,
@@ -23,8 +23,8 @@ export function buildRootMetadata(
     authors: [{ name: siteMetadata.creator, url: siteMetadata.url }],
     creator: siteMetadata.creator,
     publisher: siteMetadata.publisher,
-    category: 'technology',
-    classification: 'application template',
+    category: 'education',
+    classification: 'historical atlas',
     referrer: 'origin-when-cross-origin',
     formatDetection: {
       email: false,
@@ -33,44 +33,8 @@ export function buildRootMetadata(
     },
     manifest: '/manifest.webmanifest',
     icons: {
-      icon: [
-        {
-          url: siteMetadata.assets.icon16,
-          sizes: '16x16',
-          type: 'image/png',
-        },
-        {
-          url: siteMetadata.assets.icon32,
-          sizes: '32x32',
-          type: 'image/png',
-        },
-        {
-          url: siteMetadata.assets.icon48,
-          sizes: '48x48',
-          type: 'image/png',
-        },
-      ],
-      shortcut: [
-        {
-          url: siteMetadata.assets.shortcutIcon,
-          sizes: '48x48',
-          type: 'image/x-icon',
-        },
-      ],
-      apple: [
-        {
-          url: siteMetadata.assets.appleTouchIcon,
-          sizes: '180x180',
-          type: 'image/png',
-        },
-      ],
-      other: [
-        {
-          rel: 'mask-icon',
-          url: siteMetadata.assets.icon48,
-          color: '#5d5dff',
-        },
-      ],
+      icon: [{ url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' }],
+      shortcut: '/icon.svg',
     },
     alternates: {
       canonical: '/',
@@ -84,9 +48,9 @@ export function buildRootMetadata(
       images: [
         {
           url: siteMetadata.assets.openGraph,
-          width: 1024,
-          height: 1024,
-          alt: `${siteMetadata.name} application template brand symbol`,
+          width: 1200,
+          height: 630,
+          alt: `${siteMetadata.name} interactive history atlas`,
         },
       ],
       locale,

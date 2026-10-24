@@ -1,3 +1,58 @@
+# Seyri Cihan atlas geliştirmesi
+
+## Kabartma yüksekliği inceltmesi — sonuç / 2026-10-24
+
+- React Globe GL polygon yan yüzünün yerel kara yüzeyinden değil küre tabanından başladığı hesaba katıldı. Altın alanın kara üstündeki farkı 0.0032'den 0.00064'e, beyaz çekirdeğin toplam farkı 0.0077'den 0.00106'ya düşürüldü; böylece uzun pim/sütun görünümü kaldırıldı.
+- Dış alan hâlâ kara yüzeyinden ayrılıyor, seçili beyaz çekirdek de dış alanın biraz üzerinde kalıyor. Birim testler her iki katmanın pozitif fakat kara kalınlığının yarısından düşük farkta olduğunu güvenceye alıyor.
+- Playwright ile 1920 Birinci Meclis ve 1517 Ridâniye işaretleri maksimum zoomda ve eğik görünümde kontrol edildi; konsol hatası yok. Kanıtlar: `output/playwright/shallow-relief-1920-max-zoom.png`, `shallow-relief-1920-oblique.png`, `shallow-relief-1517-oblique.png`.
+- Type-check, lint, 11 dosyada 51 test, metadata denetimi ve üretim build geçti; diff kontrolü temiz.
+
+## Yüksek çözünürlüklü yakınlaştırma — sonuç / 2026-10-24
+
+- Kamera yakın sınırı 135'ten 104'e indirildi; yakın düzlem 0.1 olarak ayarlanarak yüzeye ve olay kabartmasına yaklaşık dokuz kat daha fazla yaklaşma alanı açıldı. Uzak zoom sınırı ve mevcut sürükleme davranışı korundu.
+- WebGL çizimi cihaz yoğunluğunu 3×'e kadar kullanıyor; iPhone 15 emülasyonunda 363×450 CSS piksellik canvas'ın 1089×1350 fiziksel piksel ürettiği doğrulandı. Polygon küre eğriliği çözünürlüğü 4°'den 1°'ye yükseltildi.
+- Natural Earth taban haritası 1:110m yerine 60.669 koordinatlı 1:50m fiziksel kara verisine geçirildi. 1.636.166 baytlık yerel dosyanın SHA256 değeri sabitlendi; `npm run data:land` kaynağı doğrulayıp dosyayı atomik yeniliyor.
+- Playwright ile 1517 Ridâniye görünümünde maksimum zoom, yakın planda döndürme, olayın yeniden seçilmesi ve 3× Retina mobil çizimi hatasız çalıştı; konsol hatası yok. Kanıtlar: `output/playwright/high-resolution-max-zoom-1517.png`, `high-resolution-max-zoom-rotated.png`, `high-resolution-retina-mobile.png`.
+- Type-check, lint, 11 dosyada 50 test, metadata denetimi ve üretim build geçti. Geliştirme sunucusunun oluşturduğu dört yinelenmiş `.next/types/* 2.ts` dosyası tip çakışmasına neden olduğu için geri alınabilir biçimde `/tmp/seyri-zoom-generated-types.8soO8g` altına taşındı; kaynak dosyalar etkilenmedi.
+
+## Organik olay alanları — sonuç / 2026-10-24
+
+- Tek tip daire kaldırıldı. 12 olayın her birine kaynak anlatısına göre yaklaşık yarıçap, uzama yönü, pürüzlülük ve iki dilde bağlam açıklaması eklendi. Bu alanlar kesin sınır olarak sunulmuyor.
+- Haritada, küre yüzeyini izleyen düzensiz altın bağlam kabartması çiziliyor. Seçili olay bunun üzerinde ayrı geometriye, açık renge ve ek yüksekliğe sahip ikinci bir çekirdekle gösteriliyor; iki katman da aynı olay tıklamasını ve tooltip davranışını koruyor.
+- 1517 Ridâniye alanı Matariye–Cebelülahmer ile Nil–Mukattam hattına göre doğu-batı yönünde genişletildi. Yakın/eğik görünüm, paneli kapatıp kabartmadan yeniden açma ve 390 px taşma kontrolü Playwright ile geçti; konsol hatası yok. Kanıtlar: `output/playwright/organic-relief-1517-detail-final.png`, `organic-relief-1517-oblique-final.png`, `organic-relief-1517-mobile.png`.
+- Type-check, lint, 10 dosyada 48 test, metadata denetimi ve üretim build geçti; diff kontrolü temiz. Fiziksel mobil GPU testi ve bağımsız akademik coğrafya incelemesi yapılmadı.
+
+## Sığ olay kabartması düzeltmesi — sonuç / 2026-10-10
+
+- Önceki düz disk yorumu düzeltildi: olay kabartması yerel kara/sınır yüzeyinin üzerine `EVENT_RELIEF = LAND_ALTITUDE = 0.003` kadar çıkar. Görsel çakışma payı ayrıca 0.0002'dir. Altın-kahverengi yan yüz görünür; yüksek silindir geometrisi kullanılmaz.
+- Bilgi etiketi, kabartma kenarını örtmemesi için aşağı alındı. 1517 Kahire görünümü yakın/eğik açıdan Playwright ile kontrol edildi; kanıt: `output/playwright/relief-1517-oblique.png`. Oynatma sırasında kabartmaya tıklayınca yılın durması ve olay panelinin açılması doğrulandı.
+- Type-check, lint, 47 test ve üretim build geçti; diff kontrolü temiz. Yeniden oluşan 4 üretilmiş `.next/types/* 2.ts` kopyası tip çakışması nedeniyle `/tmp/seyri-relief-types.bYaegs` içine taşınarak korundu; kaynak dosyası silinmedi.
+
+## Tarihî sınırlar ve yüzey işaretleri — sonuç / 2026-10-10
+
+- Elle çizilmiş 7 temsili bölge kaldırıldı. ETH Zürich CShapes 2.0'dan SHA256 kontrollü, koordinatları değiştirilmemiş 3 MultiPolygon kaydı alındı. 1886–1914 arası her yılın 1 Ocak görünümü destekleniyor; 1453 ve kapsam dışı yıllar sınır çizmeden açıklama gösteriyor.
+- Geometriler genelleştirilmiş kaynak verisidir; kesin fiilî kontrol veya savaş cepheleri olarak sunulmuyor. Kaynak, geçerlilik tarihleri ve CC BY-NC-SA 4.0 veri lisansı görünür. Kaynak geçmişi/çıkarma yöntemi `src/features/atlas/data/boundary-provenance.md` içinde.
+- Olay silindirleri tamamen kaldırıldı; küreye oturan geodezik diskler aynı polygon katmanında çiziliyor. Altındaki kara/sınır yüzeyinin yüksekliği kullanılıyor; yalnızca z-fighting önleyen 0.0002 yarıçap payı var, dikey yan yüz çizilmiyor. Seçim disk boyutunu değiştiriyor, yüksekliğini değil.
+- Tıklama, tooltip ve olay paneli korundu. Playwright ile 1040 yakın plan, paneli kapatıp yüzey işaretinden tekrar açma, 1886/1914 kaynaklı görünüm ve 390 px taşma kontrolü geçti. Görseller: `output/playwright/surface-marker-1040-close.png`, `boundary-1886.png`, `boundary-1914.png`, `boundary-mobile.png`.
+- Doğrulama: type-check, lint, 10 dosyada 47 test, metadata:check ve üretim build geçti. UI kaynakları 250 satır altında; GeoJSON veri varlığı sıkıştırılmış tek satırdır. Eski `.next/types/* 2.ts` ve `* 3.ts` kopyaları tip çakışması yaptığı için yalnızca bu 8 üretilmiş dosya `/tmp/seyri-generated-types.ZJiHb2` içine taşınarak korundu.
+- Eksik kapsam: 1453 için kaynaklı sınır verisi, diğer devletler/dönemler, gün bazında zaman seçimi ve akademik editoryal inceleme. Uygulama kodunun MIT lisansı, eklenen veri setinin ticari olmayan kullanım koşulunu değiştirmez. Dağıtım yapılmadı.
+
+Plan ve kapsam: `tasks/atlas-plan.md`.
+
+## İnceleme / sonuç — 2026-10-06
+
+- Tulpar core/form altyapısı üzerinde Seyri Cihan public kabuğu, TR/EN içerik, tema, metadata, sitemap, llms.txt ve Open Graph tamamlandı.
+- React Globe GL / Three.js ile yerel Natural Earth kıtaları, kabartmalı temsili bölgeler, olay işaretleri, kamera odağı, dönüş/yakınlaşma ve WebGL hata alternatifi çalışıyor.
+- 552–1923 yıl seçimi/oynatma, paylaşılabilir URL, 7 dönem, 12 olay ve kaynakça eklendi. Olay/dönem dosyaları, kronoloji, arama ve bilgi paneli ortak veri setini kullanıyor.
+- Gerçek tarayıcıda polygon yönü, Türkçe küre etiketleri, sunucu tarafında Link varyantı, reduced-motion hydration ve hızlı dil/yenileme sırasında seçim kaybı düzeltildi. Elle döndürme otomatik dönüş düğmesiyle senkronize edildi.
+- Son otomatik kontroller: type-check, lint, 8 dosyada 41 test, metadata:check ve Next 16.3.8 üretim build başarılı. Yeni kaynak dosyaları 250 satır altında; `git diff --check` temiz.
+- Playwright: masaüstü olay/bölge tıklaması, sürükleme, oynatma, yıl girişi, slider klavyesi, arama, TR/EN kalıcılığı, tema, 390/320 px taşma, reduced-motion ve sentetik WebGL context-loss → kronoloji akışı doğrulandı. Üretim sunucusunda olay → detay → atlas ve fallback akışı tarayıcı hatası olmadan geçti. Fiziksel mobil cihaz/GPU testi yapılmadı.
+- HTTP kontrolleri: public sayfalar ve SEO uçları 200; bilinmeyen kök rota ve demo auth uçları 404; eski login 307 ile atlasa döner. Bilinmeyen olay/dönem slug'ları not-found + noindex üretir; Next'in streaming yanıtı nedeniyle HTTP 200 gelebilir. Bu ayrım üretim smoke kontrolünde gözlendi.
+- Kanıtlar (Git dışında): `output/playwright/atlas-production-desktop.png`, `event-production.png`, `atlas-mobile-390.png`, `atlas-fallback-320.png`.
+- Next güvenlik güncellemesi ve uyumlu transitive sharp/source-map-js/seroval/solid-js güncellemeleri yapıldı. Son tam `npm audit`: 0 kritik, 7 yüksek, 2 orta; `--omit=dev`: 0 kritik, 5 yüksek, 2 orta. Kalanlar Tailwind 3 ve ESLint glob/parser zincirinde; major sürüm geçişi bu fazda zorlanmadı. Audit temiz olarak raporlanmıyor.
+- Açık kalan kapsam: kaynaklı tarihî sınır snapshotları, topoğrafik yükseklik, daha geniş editoryal seçki, kişi/devlet hub'ları, mobil drawer, rehberli anlatılar ve canlı dağıtım. Ayrıntılı sıra `tasks/atlas-plan.md` içinde. Mevcut kabartmalar tarihî siyasi sınır değildir.
+- Git commit/push veya dış ortama dağıtım yapılmadı. Önceden bulunan `yarn.lock` korunmuştur; npm lock kullanılır. `AGENTS.md` ve `next-env.d.ts` içindeki framework tarafından üretilen güncellemeler korunmuştur.
+
 # Multi-Dil (i18n) JSON Dönüşümü ve Çeviri İyileştirmeleri İnceleme Özeti
 
 ## Yapılan İyileştirmeler ve Geliştirmeler

@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { type VariantProps } from 'class-variance-authority';
 
-import { buttonVariants } from '@/components/core/button';
+import { buttonVariants } from '@/lib/utils/button-styles';
 
 import { cn } from '@/lib/utils';
 

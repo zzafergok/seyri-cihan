@@ -14,7 +14,7 @@ export const routeMetadata: Record<MetadataRouteId, RouteMetadataDescriptor> = {
   publicCulture: {
     path: '/culture',
     section: 'public',
-    robots: { index: true, follow: true },
+    robots: { index: false, follow: false },
     locale: {
       en: enRouteMetadata.publicCulture,
       tr: trRouteMetadata.publicCulture,
@@ -27,6 +27,42 @@ export const routeMetadata: Record<MetadataRouteId, RouteMetadataDescriptor> = {
     locale: {
       en: enRouteMetadata.publicLogin,
       tr: trRouteMetadata.publicLogin,
+    },
+  },
+  publicAtlas: {
+    path: '/atlas',
+    section: 'public',
+    robots: { index: true, follow: true },
+    locale: {
+      en: enRouteMetadata.publicAtlas,
+      tr: trRouteMetadata.publicAtlas,
+    },
+  },
+  publicChronology: {
+    path: '/kronoloji',
+    section: 'public',
+    robots: { index: true, follow: true },
+    locale: {
+      en: enRouteMetadata.publicChronology,
+      tr: trRouteMetadata.publicChronology,
+    },
+  },
+  publicSources: {
+    path: '/kaynaklar',
+    section: 'public',
+    robots: { index: true, follow: true },
+    locale: {
+      en: enRouteMetadata.publicSources,
+      tr: trRouteMetadata.publicSources,
+    },
+  },
+  publicAbout: {
+    path: '/hakkinda',
+    section: 'public',
+    robots: { index: true, follow: true },
+    locale: {
+      en: enRouteMetadata.publicAbout,
+      tr: trRouteMetadata.publicAbout,
     },
   },
   authHome: {

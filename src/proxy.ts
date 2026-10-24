@@ -1,104 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { normalizeLocale, routing } from '@/i18n/routing';
 
-import { routing } from '@/i18n/routing';
-import { hasAdminSession, hasUserSession } from '@/lib/auth/session';
-
-const AUTH_ENTRY = '/home';
-const ADMIN_ENTRY = '/admin';
-const ADMIN_LOGIN = '/admin/login';
-const LOCALE_HEADER = 'X-NEXT-INTL-LOCALE';
-
-function applySecurityHeaders(response: NextResponse): NextResponse {
-  response.headers.set('X-Frame-Options', 'DENY');
-  response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set(
-    'Permissions-Policy',
-    'camera=(), microphone=(), geolocation=()',
-  );
-  response.headers.set('X-XSS-Protection', '1; mode=block');
-  return response;
-}
-
-function withLocaleHeader(request: NextRequest): NextResponse {
-  const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
-  const locale =
-    cookieLocale &&
-    (routing.locales as readonly string[]).includes(cookieLocale)
-      ? cookieLocale
-      : routing.defaultLocale;
-
-  const headers = new Headers(request.headers);
-  headers.set(LOCALE_HEADER, locale);
-
-  const response = NextResponse.next({ request: { headers } });
-  return applySecurityHeaders(response);
-}
-
-function redirectWithSecurity(url: URL): NextResponse {
-  const response = NextResponse.redirect(url);
-  return applySecurityHeaders(response);
-}
-
-function isStaticAsset(pathname: string): boolean {
-  return (
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/static') ||
-    pathname.includes('.') ||
-    pathname === '/robots.txt' ||
-    pathname === '/sitemap.xml' ||
-    pathname === '/llms.txt'
-  );
-}
+// The copied template's demo account surfaces are not part of the public atlas.
+const templateRoutes = [
+  '/login',
+  '/admin',
+  '/home',
+  '/workspace',
+  '/settings',
+  '/culture',
+];
+const within = (pathname: string, root: string) =>
+  pathname === root || pathname.startsWith(root + '/');
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  if (isStaticAsset(pathname) || pathname.startsWith('/api/')) {
-    const response = NextResponse.next();
-    return applySecurityHeaders(response);
+  if (within(pathname, '/api/auth')) {
+    return NextResponse.json(
+      { message: 'Seyri Cihan does not provide account endpoints.' },
+      { status: 404 },
+    );
   }
-
-  const hasSession = hasUserSession(request);
-  const hasAdmin = hasAdminSession(request);
-  const isAdminLogin = pathname === ADMIN_LOGIN;
-  const isAdminRoute =
-    pathname === ADMIN_ENTRY || pathname.startsWith(`${ADMIN_ENTRY}/`);
-
-  if (isAdminLogin) {
-    if (hasAdmin) {
-      return redirectWithSecurity(new URL(ADMIN_ENTRY, request.url));
-    }
-    return withLocaleHeader(request);
+  if (templateRoutes.some((route) => within(pathname, route))) {
+    return NextResponse.redirect(new URL('/atlas', request.url));
   }
-
-  if (isAdminRoute) {
-    if (!hasAdmin) {
-      return redirectWithSecurity(new URL(ADMIN_LOGIN, request.url));
-    }
-    return withLocaleHeader(request);
-  }
-
-  if (pathname === '/login') {
-    if (hasSession) {
-      return redirectWithSecurity(new URL(AUTH_ENTRY, request.url));
-    }
-    return withLocaleHeader(request);
-  }
-
-  if (
-    pathname === '/' ||
-    pathname === '/culture' ||
-    pathname.startsWith('/culture/')
-  ) {
-    return withLocaleHeader(request);
-  }
-
-  if (!hasSession) {
-    return redirectWithSecurity(new URL('/', request.url));
-  }
-
-  return withLocaleHeader(request);
+  const headers = new Headers(request.headers);
+  headers.set(
+    'X-NEXT-INTL-LOCALE',
+    normalizeLocale(request.cookies.get('NEXT_LOCALE')?.value) ??
+      routing.defaultLocale,
+  );
+  const response = NextResponse.next({ request: { headers } });
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  return response;
 }
 
 export const config = {

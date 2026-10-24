@@ -1,0 +1,143 @@
+.atlas-stage {
+  position: relative;
+  isolation: isolate;
+  height: clamp(440px, 43vw, 620px);
+  overflow: hidden;
+  background: #081419;
+  color: #e4e6dd;
+}
+.atlas-stage-title {
+  pointer-events: none;
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  z-index: 2;
+}
+.atlas-stage-title span {
+  display: block;
+  font: 9px monospace;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  color: #a0aca9;
+}
+.atlas-stage-title strong {
+  display: block;
+  margin: 8px 0 2px;
+  font:
+    45px Georgia,
+    serif;
+  letter-spacing: -1px;
+}
+.atlas-stage-title small {
+  color: #91a29f;
+  font-size: 10px;
+}
+.atlas-stage-tools {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  z-index: 3;
+  display: flex;
+  gap: 4px;
+}
+.atlas-map-button {
+  color: #b7c6c1;
+  border: 1px solid #344744;
+  background: #102222;
+}
+.atlas-map-button:hover {
+  background: #25403c;
+}
+.atlas-globe-mount {
+  height: 100%;
+  width: 100%;
+}
+.atlas-globe-label {
+  display: block;
+  margin: 60px 0 0 16px;
+  padding: 4px 8px;
+  background: #102830e6;
+  border: 1px solid #527269;
+  color: #fff2d6;
+  font: 10px/1.5 sans-serif;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.atlas-map-legend {
+  position: absolute;
+  bottom: 44px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  pointer-events: none;
+}
+.atlas-map-legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  color: #acbbb7;
+}
+.atlas-map-legend i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.atlas-event-dot {
+  background: #f2d9a2;
+}
+.atlas-region-dot {
+  background: #be9a57;
+}
+.atlas-map-hint {
+  position: absolute;
+  bottom: 16px;
+  left: 20px;
+  color: #8eaaa3;
+  font: 9px monospace;
+  pointer-events: none;
+}
+.atlas-timeline {
+  padding: 20px 16px 10px;
+  border-top: 1px solid hsl(var(--border));
+}
+.atlas-timeline-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.atlas-slider-wrap {
+  flex: 1;
+  min-width: 80px;
+  padding: 8px 5px 0;
+}
+.atlas-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
+  color: hsl(var(--muted-foreground));
+  font: 9px monospace;
+}
+.atlas-period-ticks {
+  height: 2px;
+  margin-top: 15px;
+  display: flex;
+  gap: 2px;
+  opacity: 0.6;
+}
+.atlas-data-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 13px 18px;
+  font-size: 10px;
+  line-height: 1.7;
+  color: hsl(var(--muted-foreground));
+}
+.atlas-data-note svg {
+  flex-shrink: 0;
+}

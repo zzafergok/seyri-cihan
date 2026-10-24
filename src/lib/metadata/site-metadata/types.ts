@@ -9,6 +9,10 @@ export type RouteSection = 'public' | 'auth' | 'admin';
 
 export type MetadataRouteId =
   | 'publicHome'
+  | 'publicAtlas'
+  | 'publicChronology'
+  | 'publicSources'
+  | 'publicAbout'
   | 'publicCulture'
   | 'publicLogin'
   | 'authHome'

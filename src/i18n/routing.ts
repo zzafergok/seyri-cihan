@@ -8,7 +8,7 @@ export const BCP47_LOCALES: Record<Locale, string> = {
 
 export const routing = {
   locales,
-  defaultLocale: 'en' satisfies Locale,
+  defaultLocale: 'tr' satisfies Locale,
   localePrefix: 'never',
 } as const;
 

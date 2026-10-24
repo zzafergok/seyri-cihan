@@ -1,8 +1,8 @@
 {
   "publicHome": {
-    "title": "Next.js 16 Kurumsal Uygulama Şablonu & Mimari Altyapı",
-    "description": "Çoklu uygulama kabukları, tipli formlar, özel core bileşenler ve Türk kültür vitrini içeren kurumsal Next.js 16 şablonu.",
-    "aiPurpose": "Tulpar kurumsal uygulama şablonunun mimari yapısını ve kabuklarını özetleyen AI tanıtım ekranı."
+    "title": "Etkileşimli Türk Tarihi Atlası",
+    "description": "Türk tarihini 552–1923 arasında dönen bir dünya, zaman çizelgesi ve kaynaklı olay dosyaları üzerinden keşfedin.",
+    "aiPurpose": "Türk tarihini 552–1923 arasında dönen bir dünya, zaman çizelgesi ve kaynaklı olay dosyaları üzerinden keşfedin."
   },
   "publicCulture": {
     "title": "Türk Kültür & Mitoloji Atlası",
@@ -26,12 +26,12 @@
   },
   "authSettings": {
     "title": "Hesap Ayarları",
-    "description": "Tulpar uygulama kabuğu için korumalı hesap düzeyi ayarlar.",
+    "description": "Seyri Cihan uygulama kabuğu için korumalı hesap düzeyi ayarlar.",
     "aiPurpose": "Kullanıcı ayarlar rotası; indeksleme ve AI keşif listelerinden hariç tutulur."
   },
   "adminLogin": {
     "title": "Yönetici Girişi",
-    "description": "Tulpar kabuğu yönetim erişimi için yönetici giriş arayüzü.",
+    "description": "Seyri Cihan kabuğu yönetim erişimi için yönetici giriş arayüzü.",
     "aiPurpose": "Yönetim giriş rotası; indeksleme ve AI keşfinden engellenir."
   },
   "adminOverview": {
@@ -46,7 +46,27 @@
   },
   "adminSettings": {
     "title": "Yönetici Ayarları",
-    "description": "Tulpar platform düzeyindeki kontroller için korumalı yapılandırma arayüzü.",
+    "description": "Seyri Cihan platform düzeyindeki kontroller için korumalı yapılandırma arayüzü.",
     "aiPurpose": "Korumalı yönetici yapılandırma rotası; indeksleme ve AI keşfinden engellenir."
+  },
+  "publicAtlas": {
+    "title": "Dünya Atlası",
+    "description": "Yıl seçin, dünyayı döndürün ve Türk tarihinin dönüm noktalarını harita üzerinde keşfedin.",
+    "aiPurpose": "Yıl seçin, dünyayı döndürün ve Türk tarihinin dönüm noktalarını harita üzerinde keşfedin."
+  },
+  "publicChronology": {
+    "title": "Tarih Kronolojisi",
+    "description": "Göktürklerden Cumhuriyetin ilanına seçilmiş tarihî olayları yıl sırasıyla inceleyin.",
+    "aiPurpose": "Göktürklerden Cumhuriyetin ilanına seçilmiş tarihî olayları yıl sırasıyla inceleyin."
+  },
+  "publicSources": {
+    "title": "Kaynakça ve Yöntem",
+    "description": "Olay anlatılarında kullanılan kaynakları ve temsili harita katmanlarının sınırlarını inceleyin.",
+    "aiPurpose": "Olay anlatılarında kullanılan kaynakları ve temsili harita katmanlarının sınırlarını inceleyin."
+  },
+  "publicAbout": {
+    "title": "Seyri Cihan Hakkında",
+    "description": "Seyri Cihan, Türk tarihinin coğrafyayla ilişkisini keşfetmek için geliştirilen bir hobi projesidir.",
+    "aiPurpose": "Seyri Cihan, Türk tarihinin coğrafyayla ilişkisini keşfetmek için geliştirilen bir hobi projesidir."
   }
 }

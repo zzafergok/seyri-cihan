@@ -1,0 +1,81 @@
+.atlas-workspace {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) 300px;
+  border: 1px solid hsl(var(--border));
+}
+.atlas-chapters {
+  border-right: 1px solid hsl(var(--border));
+  padding: 24px 12px 12px;
+  display: flex;
+  flex-direction: column;
+}
+.atlas-chapters h2 {
+  font: 9px monospace;
+  letter-spacing: 1.3px;
+  padding: 0 10px 22px;
+  color: hsl(var(--muted-foreground));
+}
+.atlas-chapter-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.atlas-chapter {
+  position: relative;
+  display: flex;
+  text-align: left;
+  justify-content: flex-start;
+  gap: 12px;
+  height: auto;
+  min-height: 66px;
+  padding: 12px 9px;
+  white-space: normal;
+  border: 1px solid transparent;
+}
+.atlas-chapter[aria-pressed='true'] {
+  border-color: hsl(var(--tulpar-gold) / 0.25);
+  background: hsl(var(--tulpar-gold) / 0.055);
+}
+.atlas-chapter-number {
+  font: 10px monospace;
+  align-self: flex-start;
+  padding-top: 2px;
+  color: hsl(var(--muted-foreground));
+}
+.atlas-chapter strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.atlas-chapter small {
+  display: block;
+  margin-top: 6px;
+  font: 9px monospace;
+  color: hsl(var(--muted-foreground));
+}
+.atlas-chapter-dot {
+  position: absolute;
+  right: 8px;
+  top: 16px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: hsl(var(--tulpar-gold));
+}
+.atlas-chapters-foot {
+  margin-top: auto;
+  padding: 24px 10px 6px;
+  color: hsl(var(--muted-foreground));
+  font-size: 10px;
+  line-height: 1.8;
+}
+.atlas-chapters-foot p {
+  margin: 10px 0;
+}
+.atlas-chapters-foot a {
+  color: hsl(var(--foreground));
+}
+.atlas-center {
+  min-width: 0;
+}

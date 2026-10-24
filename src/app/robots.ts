@@ -2,7 +2,14 @@ import type { MetadataRoute } from 'next';
 
 import { siteMetadata } from '@/lib/metadata/site-metadata';
 
-const privatePaths = ['/home', '/workspace', '/settings', '/admin'];
+const privatePaths = [
+  '/home',
+  '/workspace',
+  '/settings',
+  '/admin',
+  '/login',
+  '/culture',
+];
 const publicAiSearchPaths = ['/', '/llms.txt', '/sitemap.xml'];
 
 export default function robots(): MetadataRoute.Robots {

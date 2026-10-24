@@ -4,6 +4,16 @@ Bu dosya, kullanıcı geri bildirimleri, mimari denetimler ve geliştirme sürec
 
 ---
 
+## Tarih atlası: veri doğruluğu ürünün çekirdeğidir
+
+- Yakınlaştırma yalnızca `minDistance` düşürülerek artırılmamalı. Yakın kamera sınırı, cihaz piksel oranı, polygon eğrilik çözünürlüğü ve taban GeoJSON ölçeği birlikte yükseltilmeli; aksi hâlde daha fazla zoom yalnızca düşük çözünürlüklü kıyı çizgisini büyütür.
+- Tek tip düzgün daire, "yakın çevre" anlatısını gereğinden kesin ve yapay gösterir. Olay işaretleri türüne ve kaynak anlatısına göre ayrı ölçek/yön taşımalı; düzensiz dış bağlam alanı ve bunun üzerinde ikinci bir seçim kabartması kullanılmalı. Bu alanın kesin sınır olmadığı panelde açıklanmalı.
+- Olay konumu nicel bir yükseklik değildir. Globe polygonunun yan yüzü destek yüzeyinden değil küre tabanından başladığı için kara yüksekliğini olay yüksekliğine yeniden eklemek kabartmayı iki kat kalın gösterir. Olay katmanının toplam yüksekliği kara/sınır yüzeyinin yalnızca az üzerinde kalmalı; beyaz seçim çekirdeği de bunun üzerinde küçük bir farkla ayrışmalıdır. Üstten görünüm yeterli değildir; maksimum zoomda yakın/eğik açıdan kontrol et.
+
+- Kullanıcı yıl yıl tarihî sınır istediğinde elle çizilmiş “temsili okuma bölgeleri” kabul edilebilir bir sınır MVP'si değildir. Uyarı yazısı yanıltıcı harita dilini düzeltmez.
+- Sınır katmanı yalnızca kaynağı, lisansı ve zaman kapsamı belirli geometriyi çizmeli; bilinmeyen yılda yakın yılın sınırını sessizce kullanmamalıdır.
+- Görsel doğrulama, polygonun render edilmesini değil kıyı/sınır biçimini ve yıl-veri ilişkisini de denetlemelidir.
+
 ## 1. Mimari ve Dosya Boyutu Standartları
 
 - **250 Satır Kuralı:** Projedeki hiçbir dosya 250 satırı aşmamalıdır. Genişleyen dosyalar (örn. büyük metadata sözlükleri, karmaşık UI kartları, yardımcı fonksiyon kütüphaneleri) ilgili ada sahip bir klasör altında `types.ts`, `constants.ts`, `sub-components` ve `index.ts` yapısıyla derhal modülerleştirilmelidir.

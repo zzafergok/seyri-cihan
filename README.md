@@ -1,236 +1,57 @@
-# Tulpar
+# Seyri Cihan
 
-Tulpar; Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS, Zustand, TanStack React Query ve Radix UI üzerine inşa edilmiş, enterprise seviyede **domain-independent (sektörden bağımsız)** modern bir web uygulaması altyapısı ve şablonudur.
+Tulpar temelli, Türk tarihini zaman ve coğrafya üzerinden keşfetmek için geliştirilen etkileşimli bir hobi atlası.
 
-Public sayfalar (Landing, Login), korumalı kullanıcı alanları (Dashboard, Workspace, Settings) ve yönetim panelleri (Admin Login, Overview, Users, Settings) için hazır uygulama kabukları (Shells), güvenlik katmanı, API interceptor mimarisi, form altyapısı ve durum yönetimi sunar.
+## Çalıştırma
 
----
+Node.js 22+ ve npm kullanın. `npm ci`, ardından `npm run dev`. Ana sayfa ve `/atlas` atlası açar. Üretim önizlemesi: `npm run build`, ardından `npm start`. Yalnızca npm lock dosyası bu geliştirme akışında güncellenir.
 
-## 📚 İçindekiler / Table of Contents
+Üretime çıkarken `NEXT_PUBLIC_SITE_URL` ortam değişkenini gerçek origin ile ayarlayın. Varsayılan `http://localhost:3000` değeridir. Atlas için API anahtarı, hesap, veritabanı veya harici harita servisi gerekmez.
 
-- [Tulpar](#tulpar)
-  - [📚 İçindekiler / Table of Contents](#-i̇çindekiler--table-of-contents)
-  - [🚀 Öne Çıkan Özellikler ve Mimari](#-öne-çıkan-özellikler-ve-mimari)
-  - [🛠️ Teknoloji Yığını (Tech Stack)](#️-teknoloji-yığını-tech-stack)
-  - [📁 Proje Dizin Yapısı (Project Structure)](#-proje-dizin-yapısı-project-structure)
-  - [🎓 Eğitici Mimari Rehber (Educational Guide)](#-eğitici-mimari-rehber-educational-guide)
-    - [1. API Client ve Interceptor Kullanımı](#1-api-client-ve-interceptor-kullanımı)
-    - [2. Servis ve Önbellekleme Katmanı (`CACHE_STRATEGIES`)](#2-servis-ve-önbellekleme-katmanı-cache_strategies)
-    - [3. Zustand ve React Query Auth Hook'ları](#3-zustand-ve-react-query-auth-hookları)
-    - [4. Güvenlik ve Session Yapılandırması](#4-güvenlik-ve-session-yapılandırması)
-  - [⚡ Kurulum ve Komutlar](#-kurulum-ve-komutlar)
-    - [1. Kurulum](#1-kurulum)
-    - [2. Kullanılabilir Komutlar](#2-kullanılabilir-komutlar)
-  - [📄 Lisans](#-lisans)
+## İlk sürüm
 
----
+- Natural Earth 1:50m kıyı ayrıntısını, koordinat ızgarasını ve kaynaklı tarihî sınır katmanını gösteren yüksek çözünürlüklü, döndürülebilir/yakınlaştırılabilir dünya.
+- 552–1923 arası yıl seçimi, birer yıllık oynatma, klavyeyle slider ve doğrudan yıl girişi.
+- Kaynak anlatısına göre ölçeklenip yönlenen düzensiz 3B olay alanları; seçili olayda ayrıca yükselen açık renkli çekirdek. Yüksek olay sütunları kullanılmaz. Olay ve sınır tıklamaları, kamera odağı, kaynak bağlantılı bilgi paneli.
+- 7 editoryal dönem, Türkçe/İngilizce 12 seçilmiş olay ve 13 kaynak kaydı.
+- CShapes 2.0'dan alınan Osmanlı sınırları: 1886–1914 arasındaki her yılın 1 Ocak görünümü, kaynak geçerlilik tarihleri ve lisans bilgisi.
+- Paylaşılabilir durum: `/atlas?year=1071&event=malazgirt-savasi`.
+- `/olay/[slug]`, `/donem/[slug]`, `/kronoloji`, `/kaynaklar`, `/hakkinda`.
+- Koyu/açık tema, mobil düzen, reduced-motion, WebGL hata alternatifi.
+- Merkezi metadata, kaynakça bağlantıları, sitemap, Open Graph ve Article JSON-LD.
 
-## 🚀 Öne Çıkan Özellikler ve Mimari
+Her yıl seçilebilir; içerik seçkisi henüz her yıl için olay içermez. Boş yıl açıkça gösterilir. Dönemler editoryal bölümlerdir; devletlerin kuruluş/yıkılış tarihleriyle eşdeğer değildir.
 
-- **Next.js 16 App Router & Native Proxy Middleware**:
-  - `src/proxy.ts` üzerinden sıkılaşmış rota koruması (Route Guard).
-  - Üretim seviyesinde **HTTP Security Headers** (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`, `X-XSS-Protection`).
-- **Güvenlik ve Oturum Katmanı**:
-  - `httpOnly`, `secure`, `sameSite: 'lax'` parametrelerine sahip HTTP Çerezleri ([session.ts](file:///Users/zafergok/Documents/github/ZAFER/tulpar/src/lib/auth/session.ts)).
-  - JWT imzalama ve doğrulama modülü ([jwt.ts](file:///Users/zafergok/Documents/github/ZAFER/tulpar/src/lib/auth/jwt.ts)).
-  - Next.js API Route Handler'ları (`/api/auth/login`, `/api/auth/logout`, `/api/auth/me`).
-- **İstemci Durum Yönetimi (Zustand)**:
-  - `useAuthStore` ile LocalStorage senkronizasyonu (`tulpar-auth-storage`).
-- **Tip Güvenli API Client ve Interceptor**:
-  - `apiClient` ([client.ts](file:///Users/zafergok/Documents/github/ZAFER/tulpar/src/lib/api/client.ts)) üzerinden istek (Bearer token injection), yanıt (HTTP 401 auto logout) ve hata interceptor'ları.
-- **TanStack React Query & Servis Seviyesi Önbellekleme**:
-  - `QueryProvider` ile varsayılan önbellek sıfırlanmış (`staleTime: 0`), önbellekleme kararları servis katmanına (`CACHE_STRATEGIES`) bırakılmıştır.
-- **Arayüz ve Tema Sistemi**:
-  - Dark-mode-first Brutalist renk paleti (`tulpar-blue`, `void-black`, `obsidian`, `gunmetal`, `titanium`, `ash`).
-  - 40 adet erişilebilir atomik `src/components/core` bileşeni.
-  - React Hook Form & Zod uyumlu `src/components/forms` yapısı.
-  - Hazır Türkçe (TR) ve İngilizce (EN) i18n altyapısı.
+Önceki elle çizilmiş temsili bölgeler kaldırılmıştır. Sınır katmanı yalnızca **CShapes 2.0 kaynaklı, genelleştirilmiş Osmanlı devlet sınırlarını** kapsar; kesin fiilî denetim veya eksiksiz savaş cephesi haritası değildir. Her seçili yıl, 1 Ocak durumunu gösterir; yıl içindeki tüm değişimleri temsil etmez. 1453 dahil 1886–1914 dışındaki yıllarda sınır çizilmez ve başka bir yılın sınırı yerine kullanılmaz. Kabartma yüksekliği nicel veri veya fiziksel topoğrafya göstermez.
 
----
+Ayrıntılar: [veri yöntemi](src/features/atlas/data/README.md), [sınır verisinin kaynağı, üretimi ve sınırlamaları](src/features/atlas/data/boundary-provenance.md), [Natural Earth taban haritası](public/data/README.md).
 
-## 🛠️ Teknoloji Yığını (Tech Stack)
+## Kod ve veri lisansları
 
-- **Framework**: Next.js 16 (App Router & Turbopack), React 19, TypeScript
-- **State Management**: Zustand (v5)
-- **Data Fetching & Cache**: TanStack React Query (v5) & Devtools
-- **Styling & Theme**: Tailwind CSS, `next-themes`, Framer Motion (View Transitions)
-- **UI Primitives**: Radix UI (16+ primitive), Lucide Icons
-- **Form & Validation**: React Hook Form, `@hookform/resolvers`, Zod
+Uygulama kodunun MIT lisansı, CShapes verisini kapsamaz. CShapes 2.0'dan türetilen sınır verisi **CC BY-NC-SA 4.0** koşullarıyla, ticari olmayan kullanım için sunulur; atıf ve aynı lisansla paylaşım şartları korunmalıdır. Ticari yeniden kullanım için ayrı izin veya uygun başka veri gerekir. Natural Earth taban haritası kamu malıdır ve tarihî sınırların kaynağı değildir. Lisans ve atıf ayrıntıları [sınır veri kaydındadır](src/features/atlas/data/boundary-provenance.md).
 
----
+## Mimari
 
-## 📁 Proje Dizin Yapısı (Project Structure)
+- `src/app`: App Router rotaları ve metadata girişleri.
+- `src/features/routes/public`: server ekranları ve route-local i18n.
+- `src/features/atlas/domain`: türler, Zod şemaları ve doğrulama testleri.
+- `src/features/atlas/data`: olaylar, dönemler, kaynaklar ve tarih/lisans bilgisiyle CShapes sınır geometrileri.
+- `src/features/atlas/atlas-engine`: SSR dışında yüklenen React Globe GL / Three.js motoru.
+- `src/features/atlas/store`: her atlas örneğine özel Zustand durumu ve URL dönüşümü.
+- `src/components/core`, `src/components/forms`: Tulpar ortak UI altyapısı.
 
-```text
-src/
-├── app/                      # Next.js App Router sayfaları & API Endpoint'leri
-│   ├── (public)/             # Public sayfalar (Landing, Login)
-│   ├── (auth)/               # Korumalı kullanıcı sayfaları (Home, Workspace, Settings)
-│   ├── (admin)/              # Yönetim paneli sayfaları (Admin Login, Overview, Users, Settings)
-│   └── api/                  # Backend REST API endpoint'leri (/api/auth/*)
-│
-├── features/routes/          # Ekran modülleri ve diller (i18n)
-│   ├── _shared/layouts/      # Shell çerçeveleri (PublicShell, AuthShell, AdminShell)
-│   ├── public/               # Public ekranlar ve bileşenleri
-│   ├── auth/                 # Kullanıcı ekranları ve bileşenleri
-│   └── admin/                # Admin ekranları ve bileşenleri
-│
-├── components/               # UI Bileşen Katmanı
-│   ├── core/                 # 40 adet atomik arayüz bileşeni (button, card, badge, dialog vb.)
-│   ├── forms/                # RHF + Zod destekli form alanları (form, text-field, select vb.)
-│   ├── layout/               # Global kontroller (LanguageSwitcher, ThemeToggle)
-│   └── providers/            # ClientLocaleProvider, LocaleHtmlSync
-│
-├── stores/                   # Zustand Durum Depoları
-│   └── use-auth-store.ts     # Oturum ve kullanıcı state deposu (Persisted)
-│
-├── lib/                      # Kütüphane ve Yardımcı Modüller
-│   ├── api/                  # apiClient & HTTP Interceptor altyapısı (client, types)
-│   ├── auth/                 # JWT (jwt.ts) & HTTP-Only Session (session.ts)
-│   ├── i18n/                 # Server ve Request locale yardımcıları
-│   └── metadata/             # Site ve sayfa SEO metadataları
-│
-├── services/                 # Servis Katmanı ve Önbellek Stratejileri
-│   ├── auth-service.ts       # Kimlik doğrulama servis istekleri
-│   └── example-service.ts    # Servis bazlı önbellek strateji örnekleri (CACHE_STRATEGIES)
-│
-├── hooks/                    # Custom React Query ve Uygulama Hook'ları
-│   ├── use-api-query.ts      # Tip güvenli React Query sarmalayıcıları
-│   └── use-auth-hooks.ts     # useLoginMutation, useLogoutMutation, useCurrentUserQuery
-│
-├── providers/                # Global Context Provider'lar
-│   ├── query-provider.tsx    # TanStack React QueryProvider
-│   └── theme-provider.tsx    # next-themes ThemeProvider
-│
-└── proxy.ts                  # Next.js 16 Native Proxy Middleware & Security Headers
-```
+React Globe GL kamera ve render döngüsünün tek sahibidir; paralel bir R3F canvas kurulmaz. `Territory` kayıtları `generalized` durumuyla, kaynak kimliği ve geçerlilik aralığıyla saklanır. GeoJSON Polygon/MultiPolygon yönü çizim sırasında D3 küresel polygon yönüne dönüştürülür; kaynak veri mutasyona uğramaz. Olaylar, olay başına tanımlanan yaklaşık ölçek, yön ve pürüzlülükle küresel yüzeyi izleyen düzensiz alanlar olarak sınır katmanından ayrı gösterilir. Bu alanlar kesin tarihî sınır değildir; seçili olayın beyaz çekirdeği yalnızca etkileşim ve derinlik hiyerarşisidir.
 
----
+Şablondan kalan login/admin/culture ekranları atlas navigasyonuna dahil değildir ve proxy üzerinden atlasa yönlendirilir. Demo `/api/auth/*` uçları 404 verir. Hesap altyapısı etkin bir atlas özelliği değildir.
 
-## 🎓 Eğitici Mimari Rehber (Educational Guide)
+## Doğrulama
 
-### 1. API Client ve Interceptor Kullanımı
+Sıralı çalıştırın: `npm run type-check`, `npm run lint`, `npm test`, `npm run metadata:check`, `npm run build`. Build ile type-check'i paralel çalıştırmayın.
 
-Uygulamada tüm HTTP istekleri `apiClient` üzerinden gerçekleştirilir. İstekler giden başlıkları (Authorization Bearer Token), gelen yanıtları (HTTP 401 kontrolü) ve hataları otomatik olarak işler.
+Tarayıcı kanıtları `output/playwright/` altında tutulur (Git dışında). Geliştirme planı ve sonuçlar `tasks/todo.md` ve `tasks/atlas-plan.md` içindedir.
 
-```typescript
-import { apiClient } from '@/lib/api';
+Önceki keşif sürümünün kaydı: 41 test, type-check, lint, metadata denetimi ve production build geçmiş; masaüstü/320–390 px tarayıcı akışları ve WebGL hata alternatifi kontrol edilmişti. Bu kayıt yeni sınır katmanı ve yüzey işaretleri için doğrulama kanıtı değildir; güncel sonuçlar `tasks/todo.md` içinde tutulur. Fiziksel mobil GPU testi yapılmadı. Bağımlılık audit'inde kalan Tailwind 3/ESLint glob-parser bulguları ve kontrollü major güncelleme ihtiyacı da aynı dosyada kayıtlıdır.
 
-// GET İsteği
-const data = await apiClient.get<UserProfile>('/api/users/me');
+## Sonraki içerik aşaması
 
-// POST İsteği
-const response = await apiClient.post<LoginResponse>('/api/auth/login', {
-  email: 'user@tulpar.com',
-  password: 'password123',
-});
-```
-
----
-
-### 2. Servis ve Önbellekleme Katmanı (`CACHE_STRATEGIES`)
-
-Projede global `staleTime: 0` olarak ayarlanmıştır. Her servis endpoint'i kendi önbellekleme ihtiyacına göre `CACHE_STRATEGIES` nesnesini kullanır:
-
-```typescript
-import { useApiQuery } from '@/hooks/use-api-query';
-
-export const CACHE_STRATEGIES = {
-  REALTIME: { staleTime: 0, gcTime: 0 }, // Her zaman taze veri
-  SHORT: { staleTime: 1000 * 30, gcTime: 1000 * 60 * 5 }, // 30 saniye önbellek
-  MEDIUM: { staleTime: 1000 * 60 * 5, gcTime: 1000 * 60 * 15 }, // 5 dakika önbellek
-  LONG: { staleTime: 1000 * 60 * 60, gcTime: 1000 * 60 * 60 * 24 }, // 1 saat önbellek (statik veri)
-} as const;
-
-// Örnek Servis Hook'u:
-export function useCountryLookupsQuery() {
-  return useApiQuery<string[]>(
-    ['lookups', 'countries'],
-    '/api/lookups/countries',
-    {},
-    { ...CACHE_STRATEGIES.LONG }, // Statik liste için 1 saat önbellek
-  );
-}
-```
-
----
-
-### 3. Zustand ve React Query Auth Hook'ları
-
-Kullanıcı giriş/çıkış durumları React Query Mutation'ları üzerinden yönetilir ve otomatik olarak hem Zustand `useAuthStore` state'ini hem de HTTP-Only sunucu çerezlerini senkronize eder:
-
-```typescript
-'use client';
-
-import { useLoginMutation, useLogoutMutation, useCurrentUserQuery } from '@/hooks/use-auth-hooks';
-
-export function LoginFormComponent() {
-  const loginMutation = useLoginMutation();
-  const logoutMutation = useLogoutMutation();
-  const { data: userData, isLoading } = useCurrentUserQuery();
-
-  const handleLogin = async () => {
-    await loginMutation.mutateAsync({
-      email: 'admin@tulpar.com',
-      password: 'password123',
-      isAdmin: true,
-    });
-  };
-
-  return (
-    <div>
-      <button onClick={handleLogin} disabled={loginMutation.isPending}>
-        Giriş Yap
-      </button>
-      <button onClick={() => logoutMutation.mutate()}>Çıkış Yap</button>
-    </div>
-  );
-}
-```
-
----
-
-### 4. Güvenlik ve Session Yapılandırması
-
-Next.js 16 Native `Proxy Middleware` ([proxy.ts](file:///Users/zafergok/Documents/github/ZAFER/tulpar/src/proxy.ts)), tüm isteklere güvenlik başlıklarını otomatik enjekte eder ve oturum kontrollerini yapar:
-
-- **Giren İsteğin Korunması**: Yetkisiz kullanıcılar korumalı `/home` veya `/admin` rotalarına girmek istediğinde otomatik yönlendirilir.
-- **HTTP Security Headers**:
-  - `X-Frame-Options: DENY` (Clickjacking önleme)
-  - `X-Content-Type-Options: nosniff` (MIME sniffing önleme)
-  - `Referrer-Policy: strict-origin-when-cross-origin`
-  - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
-  - `X-XSS-Protection: 1; mode=block`
-
----
-
-## ⚡ Kurulum ve Komutlar
-
-### 1. Kurulum
-
-```bash
-# Bağımlılıkları yükleyin
-npm install
-
-# Geliştirme sunucusunu başlatın
-npm run dev
-```
-
-Uygulama varsayılan olarak `http://localhost:3000` adresinde çalışır.
-
-### 2. Kullanılabilir Komutlar
-
-```bash
-npm run dev             # Turbopack destekli geliştirme sunucusu
-npm run build           # Üretim (Production) derlemesi
-npm run start           # Derlenmiş üretim sunucusunu başlatma
-npm run type-check      # TypeScript statik tip denetimi (tsc --noEmit)
-npm run metadata:check  # Rota metadatalarının doğruluk kontrolü
-npm run lint            # ESLint kod kalitesi denetimi
-```
-
----
-
-## 📄 Lisans
-
-Bu proje [MIT Lisansı](file:///Users/zafergok/Documents/github/ZAFER/tulpar/LICENSE) altında lisanslanmıştır. Dilediğiniz gibi ticari veya kişisel projelerinizde kullanabilir, değiştirebilir ve dağıtabilirsiniz.
+Özellikle 1453 için kaynaklı/lisansı uygun sınır verisi, daha geniş devlet ve yıl kapsamı, yıl içi değişimlerin modellenmesi, daha geniş olay seçkisi, kişi/devlet hub'ları, göç rotaları ve rehberli anlatılar. Bu sürüm eksiksiz yıllık siyasi harita veya editoryal incelemesi tamamlanmış akademik atlas değildir.

@@ -1,8 +1,8 @@
 {
   "publicHome": {
-    "title": "Next.js Application Template & Starter Foundation",
-    "description": "Enterprise Next.js 16 application template and starter kit featuring multi-shell layouts, typed forms, and an educational Turkic culture showcase.",
-    "aiPurpose": "Primary public overview for AI agents summarizing the Tulpar enterprise application template architecture."
+    "title": "Interactive Atlas of Turkish History",
+    "description": "Explore selected events in Turkic and Turkish history from 552 to 1923 through a rotating globe, timeline and referenced stories.",
+    "aiPurpose": "Explore selected events in Turkic and Turkish history from 552 to 1923 through a rotating globe, timeline and referenced stories."
   },
   "publicCulture": {
     "title": "Turkic Culture & Mythology Atlas",
@@ -26,17 +26,17 @@
   },
   "authSettings": {
     "title": "Account settings",
-    "description": "Protected account-level settings for the Tulpar application shell.",
+    "description": "Protected account-level settings for the Seyri Cihan application shell.",
     "aiPurpose": "Authenticated settings route; excluded from indexing and AI discovery lists."
   },
   "adminLogin": {
     "title": "Admin login",
-    "description": "Admin sign-in surface for management access to the Tulpar shell.",
+    "description": "Admin sign-in surface for management access to the Seyri Cihan shell.",
     "aiPurpose": "Administrative login route; blocked from indexing and AI discovery."
   },
   "adminOverview": {
     "title": "Management overview",
-    "description": "Protected management dashboard for users, settings, and Tulpar status.",
+    "description": "Protected management dashboard for users, settings, and Seyri Cihan status.",
     "aiPurpose": "Protected admin overview route; not intended for public crawlers."
   },
   "adminUsers": {
@@ -46,7 +46,27 @@
   },
   "adminSettings": {
     "title": "Admin settings",
-    "description": "Protected configuration surface for Tulpar-level controls.",
+    "description": "Protected configuration surface for Seyri Cihan-level controls.",
     "aiPurpose": "Protected admin configuration route; blocked from indexing and AI discovery."
+  },
+  "publicAtlas": {
+    "title": "World Atlas",
+    "description": "Choose a year, rotate the globe and discover turning points in Turkic and Turkish history.",
+    "aiPurpose": "Choose a year, rotate the globe and discover turning points in Turkic and Turkish history."
+  },
+  "publicChronology": {
+    "title": "Historical Chronology",
+    "description": "Browse selected historical events from the Göktürks to the proclamation of the Turkish Republic.",
+    "aiPurpose": "Browse selected historical events from the Göktürks to the proclamation of the Turkish Republic."
+  },
+  "publicSources": {
+    "title": "Sources and Method",
+    "description": "Explore the references behind each story and understand the limits of illustrative map layers.",
+    "aiPurpose": "Explore the references behind each story and understand the limits of illustrative map layers."
+  },
+  "publicAbout": {
+    "title": "About Seyri Cihan",
+    "description": "Seyri Cihan is a hobby project exploring the relationship between Turkish history and geography.",
+    "aiPurpose": "Seyri Cihan is a hobby project exploring the relationship between Turkish history and geography."
   }
 }

@@ -1,14 +1,11 @@
-import {
-  getIndexableRoutes,
-  siteMetadata,
-} from '@/lib/metadata/site-metadata';
+import { getIndexableRoutes, siteMetadata } from '@/lib/metadata/site-metadata';
 
 export const dynamic = 'force-static';
 
 export function GET() {
   const publicRoutes = getIndexableRoutes()
     .map((route) => {
-      const metadata = route.locale.en;
+      const metadata = route.locale.tr;
       const url = new URL(route.path, siteMetadata.url).toString();
       return `- [${metadata.title}](${url}): ${metadata.description}`;
     })
@@ -21,10 +18,11 @@ export function GET() {
 ## Site
 
 - URL: ${siteMetadata.url.origin}
-- Category: Next.js application template
-- Primary language: English
-- Additional language: Turkish
-- Public indexing policy: public overview only
+- Category: Interactive history atlas
+- Primary language: Turkish
+- Additional language: English
+- Coverage: Selected events from 552 to 1923
+- Public indexing policy: atlas, event stories, periods, chronology, references and about
 
 ## Public Routes
 
@@ -40,7 +38,11 @@ ${publicRoutes}
 
 ## AI Usage Notes
 
-- Prefer the public overview page for summaries.
+- Read /kaynaklar for references and the atlas methodology.
+- Event stories live under /olay/ and editorial periods under /donem/.
+- Historical boundaries cover the Ottoman Empire in 1886–1914, sampled on January 1 from ETH Zürich CShapes 2.0 (CC BY-NC-SA 4.0). They are generalized state boundaries, not exact wartime control. No border is drawn outside that coverage, including 1453.
+- Event markers use source-informed approximate scale and direction to form irregular, surface-following context areas. A selected event adds a second, lighter raised core. Neither layer is an exact historical border, troop position, quantity, or physical elevation. Sources and limitations: /kaynaklar.
+- The dataset is selective and does not claim complete historical coverage.
 - Do not describe protected, authenticated, or admin screens as publicly crawlable content.
 - Use robots.txt for crawler permissions and sitemap.xml for public route discovery.
 `;

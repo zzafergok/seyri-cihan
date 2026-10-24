@@ -15,7 +15,9 @@ const LocaleContext = createContext<LocaleContextValue | null>(null);
 export function useCurrentLocale() {
   const context = useContext(LocaleContext);
   if (!context) {
-    throw new Error('useCurrentLocale must be used inside ClientLocaleProvider');
+    throw new Error(
+      'useCurrentLocale must be used inside ClientLocaleProvider',
+    );
   }
 
   return context.locale;
@@ -40,8 +42,8 @@ export function ClientLocaleProvider({
   const [locale, setLocale] = useState<Locale>(initialLocale);
 
   const switchLocale = async (nextLocale: Locale) => {
-    setLocale(nextLocale);
     await setUserLocale(nextLocale);
+    setLocale(nextLocale);
   };
 
   return (

@@ -49,6 +49,8 @@ export const Slider = React.forwardRef<
         <SliderPrimitive.Thumb
           key={index}
           data-slot="slider-thumb"
+          aria-label={props['aria-label']}
+          aria-labelledby={props['aria-labelledby']}
           className="block size-4 shrink-0 rounded-full border-2 border-tulpar-blue bg-obsidian shadow-sm transition-[color,box-shadow] hover:ring-2 hover:ring-tulpar-blue/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tulpar-blue/50 disabled:pointer-events-none disabled:opacity-50"
         />
       ))}

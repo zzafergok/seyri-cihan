@@ -1,8 +1,11 @@
-import { PublicHomeScreen } from '@/features/routes/public/home';
+import {
+  AtlasScreen,
+  type AtlasScreenProps,
+} from '@/features/routes/public/atlas';
 import { createStaticMetadata } from '@/lib/metadata/page-metadata';
 
 export const generateMetadata = createStaticMetadata('publicHome');
 
-export default function PublicHomePage() {
-  return <PublicHomeScreen />;
+export default function PublicHomePage(props: AtlasScreenProps) {
+  return <AtlasScreen {...props} />;
 }

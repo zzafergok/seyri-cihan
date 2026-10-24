@@ -1,0 +1,53 @@
+.atlas-below {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 36px;
+  margin: 40px 0;
+}
+.atlas-below-intro {
+  padding: 6px 10px;
+}
+.atlas-below-intro h2 {
+  font:
+    28px Georgia,
+    serif;
+  margin: 14px 0 8px;
+}
+.atlas-below-intro p {
+  font-size: 11px;
+  color: hsl(var(--muted-foreground));
+}
+.atlas-category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 20px;
+}
+.atlas-category-filters button {
+  font-size: 10px;
+  padding: 0 9px;
+  height: 28px;
+}
+.atlas-records {
+  min-width: 0;
+}
+.atlas-records-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0 20px;
+  font: 9px monospace;
+  letter-spacing: 1px;
+  color: hsl(var(--muted-foreground));
+}
+.atlas-footer {
+  max-width: 1800px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 36px;
+  border-top: 1px solid hsl(var(--border));
+  font: 9px monospace;
+  color: hsl(var(--muted-foreground));
+}
